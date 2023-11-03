@@ -2,22 +2,33 @@ package main
 
 import "fmt"
 
-func hash(element string, a, p int, m uint32)uint32{
-	hash := uint32(0)
-
-	for _, char := range(element){ 
-		hash = (uint32(hash)*uint32(a) + uint32(char)) % uint32(p)
-	}
-	return hash % m;
-}
-
-
-
-const Prime = (2<<61)-1 
+const Prime = (1 << 31) - 1
+const a = 5
 const InitialHashsetSize = 16
 
-func main(){
-	m := uint32(InitialHashsetSize)
-	my_hash := hash("test", 5, Prime, m)
+type Hashset struct {
+	size     uint32
+	elements []string
+}
+
+func create_hashset() Hashset {
+	return Hashset{
+		size: InitialHashsetSize,
+		elements: make([]string, InitialHashsetSize),
+	}
+}
+
+func (h Hashset) hash(element string) uint32 {
+	hash := uint32(0)
+
+	for _, char := range element {
+		hash = (uint32(hash)*uint32(a) + uint32(char)) % Prime
+	}
+	return hash % h.size
+}
+
+func main() {
+	hashset := create_hashset()
+	my_hash := hashset.hash("test")
 	fmt.Println(my_hash)
 }
