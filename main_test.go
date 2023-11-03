@@ -2,8 +2,8 @@ package main
 
 import "testing"
 
-func TestCreateHashset(t *testing.T) {
-	hashset := CreateHashset()
+func TestNew(t *testing.T) {
+	hashset := New()
 	if hashset.size != InitialHashsetSize {
 		t.Errorf("Expected size %d, got %d", InitialHashsetSize, hashset.size)
 	}
@@ -21,7 +21,7 @@ func TestHashFunction(t *testing.T) {
 		// Add more test cases for hash function here
 	}
 
-	hashset := CreateHashset()
+	hashset := New()
 
 	for _, tc := range testCases {
 		actual := hashset.hash(tc.input)
@@ -32,18 +32,18 @@ func TestHashFunction(t *testing.T) {
 }
 
 func TestAddAndHas(t *testing.T) {
-	hashset := CreateHashset()
+	hashset := New()
 
 	// Add test cases to validate adding elements and checking existence
 	testAdd := "example"
-	hashset.add(testAdd)
+	hashset.Add(testAdd)
 
-	if !hashset.has(testAdd) {
+	if !hashset.Has(testAdd) {
 		t.Errorf("Expected %s to be present in the hashset, but it's not", testAdd)
 	}
 
 	testNotAdded := "non-existent"
-	if hashset.has(testNotAdded) {
+	if hashset.Has(testNotAdded) {
 		t.Errorf("Expected %s to not be present in the hashset, but it is", testNotAdded)
 	}
 }
@@ -57,5 +57,3 @@ func TestMainFunction(t *testing.T) {
 	main()
 	// If the function completes without a runtime error, it's considered successful.
 }
-
-
