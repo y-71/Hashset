@@ -1,7 +1,8 @@
-
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const (
 	Prime            = (1 << 31) - 1
@@ -14,7 +15,7 @@ type Hashset struct {
 	elements []string
 }
 
-func createHashset() Hashset {
+func CreateHashset() Hashset {
 	return Hashset{
 		size:     InitialHashsetSize,
 		elements: make([]string, InitialHashsetSize),
@@ -30,8 +31,18 @@ func (h Hashset) hash(element string) uint32 {
 	return hash % h.size
 }
 
+func (h Hashset) add(element string){
+	index := h.hash(element)
+	h.elements[index] = element
+}
+
+func (h Hashset) has(element string)bool{
+	index := h.hash(element)
+	return h.elements[index] == element
+}
+
 func main() {
-	hashset := createHashset()
+	hashset := CreateHashset()
 	myHash := hashset.hash("test")
 	fmt.Println(myHash)
 }
