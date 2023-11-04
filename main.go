@@ -9,6 +9,8 @@ const (
 	Prime              = (1 << 31) - 1
 	a                  = 5
 	DefaultHashsetSize = 16
+	GrowthFactor       = 2
+	ShrinkFactor       = 4
 )
 
 type Chain []string
@@ -64,7 +66,7 @@ func (h *Hashset) Insert(element string) {
 	h.len++
 
 	if h.len > h.size {
-		h.size = h.size * 2
+		h.size = h.size * GrowthFactor
 		newElements := make([]Chain, h.size)
 		for _, el := range h.flatten() {
 			index := h.hash(el)
@@ -84,8 +86,8 @@ func (h *Hashset) Remove(element string) {
 
 	h.len -= 1
 
-	if h.len < h.size/4 && h.size/4 >= DefaultHashsetSize {
-		h.size = h.size / 4
+	if h.len < h.size/ShrinkFactor && h.size/ShrinkFactor >= DefaultHashsetSize {
+		h.size = h.size / ShrinkFactor
 		newElements := make([]Chain, h.size)
 		for _, el := range h.flatten() {
 			index := h.hash(el)
